@@ -6,11 +6,12 @@
 /*   By: lleiria- <lleiria-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 12:35:24 by lleiria-          #+#    #+#             */
-/*   Updated: 2022/03/31 15:36:50 by lleiria-         ###   ########.fr       */
+/*   Updated: 2022/04/03 15:00:47 by lleiria-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/longlib.h"
+#include <stdio.h>
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -18,6 +19,11 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+}
+
+int	ft_input(int key, void *param)
+{
+	t_program *program
 }
 
 int	main(void)
