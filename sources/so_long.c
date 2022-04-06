@@ -6,7 +6,7 @@
 /*   By: lleiria- <lleiria-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 12:35:24 by lleiria-          #+#    #+#             */
-/*   Updated: 2022/04/04 17:24:46 by lleiria-         ###   ########.fr       */
+/*   Updated: 2022/04/06 17:17:00 by lleiria-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,28 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+}
+
+t_image	ft_void_image(void *mlx, int width, int height)
+{
+	t_image	img;
+
+	img.reference = mlx_new_image(mlx, width, height);
+	img.size.x = width;
+	img.size.y = height;
+	img.pixels = mlx_get_data_addr(img.reference, &img.bits_per_pixel,
+			&img.line_size, &img.endian);
+	return (img);
+}
+
+t_image	ft_new_sprite(void *mlx, char *path)
+{
+	t_image	img;
+
+	img.reference = mlx_xpm_file_to_image(mlx, path, &img.size.x, &img.size.y);
+	img.pixels = mlx_get_data_addr(img.reference, &img.bits_per_pixel,
+			&img.line_size, &img.endian);
+	return (img);
 }
 
 int	ft_input(int key, void *param)
@@ -35,6 +57,31 @@ int	ft_input(int key, void *param)
 		program->sprite_position.y += program->sprite.size.y;
 	else if (key == 13)
 		program->sprite_position.y -= program->sprite.size.y;
+	mlx_put_image_to_window(&program->mlx, program->window.reference,
+		program->sprite.reference, program->sprite_position.x,
+		program->sprite_position.y);
+	ft_printf("Key pressed -> %d\n", key);
+	return (0);
+}
+
+int	ft_update(void *param)
+{
+	t_program	*program;
+	static int	frame;
+
+	program = (t_program *)param;
+	frame++;
+	if (frame == ANIMATION_FRAMES)
+		program->sprite_position.y += 1;
+	else if (frame >= ANIMATION_FRAMES * 2)
+	{
+		program->sprite_position.y -= 1;
+		frame = 0;
+	}
+	mlx_put_image_to_window(&program->mlx, program->window.reference,
+		program->sprite.reference, program->sprite_position.x,
+		program->sprite_position.y);
+	return (0);
 }
 
 int ft_close()
@@ -48,9 +95,8 @@ t_window	ft_new_window(void *mlx, int widht, int height, char *name)
 	
 	window.reference = mlx_new_window(mlx, widht, height, name);
 	window.size.x = widht;
-	window.size.x = height;
-
-	
+	window.size.y = height;
+	mlx_hook(window.reference, 17, 0, ft_close, 0);
 	return (window);
 }
 
