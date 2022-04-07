@@ -6,15 +6,18 @@
 /*   By: lleiria- <lleiria-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 12:02:31 by lleiria-          #+#    #+#             */
-/*   Updated: 2022/04/06 11:40:35 by lleiria-         ###   ########.fr       */
+/*   Updated: 2022/04/07 17:28:50 by lleiria-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LONGLIB_H
 # define LONGLIB_H
 # include <mlx.h>
+# include <stdlib.h>
 
 # include "../ft_printf/ft_printf.h"
+
+#  define ANIMATION_FRAMES 10
 
 typedef struct s_vector
 {
@@ -55,6 +58,6 @@ typedef struct s_data
 	int		endian;
 }	t_data;*/
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+//void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif
